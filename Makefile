@@ -31,6 +31,7 @@ st: $(OBJ)
 
 clean:
 	rm -f st $(OBJ) st-$(VERSION).tar.gz
+	rm config.h
 
 dist: clean
 	mkdir -p st-$(VERSION)
@@ -48,10 +49,13 @@ install: st
 	sed "s/VERSION/$(VERSION)/g" < st.1 > $(DESTDIR)$(MANPREFIX)/man1/st.1
 	chmod 644 $(DESTDIR)$(MANPREFIX)/man1/st.1
 	tic -sx st.info
+	mkdir -p $(DESTDIR)$(PREFIX)/share/applications
+	cp -f st.desktop $(DESTDIR)$(PREFIX)/share/applications
 	@echo Please see the README file regarding the terminfo entry of st.
 
 uninstall:
-	rm -f $(DESTDIR)$(PREFIX)/bin/st
-	rm -f $(DESTDIR)$(MANPREFIX)/man1/st.1
+	rm -f $(DESTDIR)$(PREFIX)/bin/st\
+	    $(DESTDIR)$(MANPREFIX)/man1/st.1\
+	    $(DESTDIR)$(PREFIX)/share/applications/st.desktop
 
 .PHONY: all options clean dist install uninstall
